@@ -96,9 +96,9 @@ public function actionIndex()
             }
         }
         
-       ```
-       
-       ```php
+```
+ **Search Model add method**      
+```php
            public function getFilters()
     {
 
