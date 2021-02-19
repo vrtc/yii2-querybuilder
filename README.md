@@ -86,5 +86,58 @@ public function actionIndex()
       ]);
 }
 ```
+**Search Model**
+```php
+        if (!is_null($rules) && !empty($rules['rules'])) {
+            if ($rules) {
+                $translator = new Translator($rules);
+                $query->andWhere($translator->where())
+                    ->addParams($translator->params());
+            }
+        }
+        
+       ```
+       
+       ```php
+           public function getFilters()
+    {
 
+        $return[] = [
+            'id' => 'quantity',
+            'label' => 'Количество',
+            'operators' => ['less', 'less_or_equal', 'equal', 'greater', 'greater_or_equal'],
+            'type' => 'integer',
+        ];
+        $return[] = [
+            'id' => 'stocks',
+            'label' => 'Наличие на складах',
+            'type' => 'string',
+            'input' => 'select',
+            'operators' => ['in', 'not_in'],
+            'values' => WareHouses::getWarehousesList(),
+        ];
+        $return[] = [
+            'id' => 'name',
+            'label' => 'Название',
+            'type' => 'string',
+            'operators' => ['contains', 'equal'],
+        ];
+        $return[] = [
+            'id' => 'category_id',
+            'label' => 'Категории',
+            'type' => 'string',
+            'input' => 'select',
+            'multiple' => true,
+            /* 'values' => $this->categoriesList(),*/
+            'plugin' => 'select2',
+            'pluginConfig' => [
+                'data' => $this->categoriesListForAdminFilter(),
+                'multiple' => true,
+                'width' => '100%'
+            ],
+            'operators' => ['in', 'not_in', 'is_null'],
+        ];
+        return $return;
+    }
+    ```
 
